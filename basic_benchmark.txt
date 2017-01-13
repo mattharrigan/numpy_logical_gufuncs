@@ -1,0 +1,42 @@
+In [1]: import numpy as np
+
+In [2]: import logical_gufuncs as lg
+
+In [3]: 
+
+In [3]: n = 10000000;
+
+In [4]: x = np.arange(n, dtype=float)
+
+In [5]: y = np.arange(n, dtype=float)
+
+In [6]: z = np.arange(n, dtype=float)
+
+In [7]: z[0] = -1
+
+In [8]: %timeit (x == y).all()
+10 loops, best of 3: 26 ms per loop
+
+In [9]: %timeit lg.all_equal(x, y)
+10 loops, best of 3: 23.8 ms per loop
+
+In [10]: %timeit (x == z).all()
+10 loops, best of 3: 26.3 ms per loop
+
+In [11]: %timeit lg.all_equal(x, z)
+The slowest run took 15.43 times longer than the fastest. This could mean that an intermediate result is being cached 
+100000 loops, best of 3: 2.06 µs per loop
+
+In [12]: n = 2
+
+In [13]: x = np.arange(n, dtype=float)
+
+In [14]: y = np.arange(n, dtype=float)
+
+In [15]: %timeit (x == y).all()
+The slowest run took 12.28 times longer than the fastest. This could mean that an intermediate result is being cached 
+100000 loops, best of 3: 6.42 µs per loop
+
+In [16]: %timeit lg.all_equal(x, y)
+The slowest run took 10.58 times longer than the fastest. This could mean that an intermediate result is being cached 
+100000 loops, best of 3: 2.05 µs per loop

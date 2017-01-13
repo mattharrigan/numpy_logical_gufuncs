@@ -1,0 +1,44 @@
+In [1]: import numpy as np
+
+In [2]: import logical_gufuncs as lg
+
+In [3]: 
+
+In [3]: 
+
+In [3]: def function_2(seq, sub):
+   ...:         target = np.dot(sub, sub)
+   ...:         candidates = np.where(np.correlate(seq, sub, mode='valid') == target)[0]
+   ...:         check = candidates[:, np.newaxis] + np.arange(len(sub))
+   ...:         mask = np.all((np.take(seq, check) == sub), axis=-1)
+   ...:         return candidates[mask]
+   ...: 
+
+In [4]: def function_3(seq, sub):
+   ...:         shape = seq.shape[:-1] + (len(seq) - len(sub) + 1, len(sub))
+   ...:         strides = seq.strides + (seq. strides[-1],)
+   ...:         two_d = np.lib.stride_tricks.as_strided(seq, shape=shape, strides=strides)
+   ...:         return np.where(lg.all_equal(two_d, sub))
+   ...: 
+
+In [5]: 
+
+In [5]: n_seq = 1000000
+
+In [6]: n_sub = 100
+
+In [7]: n_occur = 10
+
+In [8]: seq = np.random.randint(1000, size=(n_seq,)).astype(float)
+
+In [9]: sub = np.random.randint(1000, size=(n_sub)).astype(float)
+
+In [10]: for idx in np.random.randint(n_seq - n_sub + 1, size=n_occur):
+   ....:         seq[idx:idx+n_sub] = sub
+   ....:     
+
+In [11]: %timeit function_2(seq, sub)
+10 loops, best of 3: 83.8 ms per loop
+
+In [12]: %timeit function_3(seq, sub)
+100 loops, best of 3: 4.17 ms per loop
