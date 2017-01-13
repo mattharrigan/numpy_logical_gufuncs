@@ -6,22 +6,6 @@
 #include "numpy/npy_3kcompat.h"
 
 
-/*
- * single_type_logit.c
- * This is the C code for creating your own
- * Numpy ufunc for a logit function.
- *
- * In this code we only define the ufunc for
- * a single dtype. The computations that must
- * be replaced to create a ufunc for
- * a different funciton are marked with BEGIN
- * and END.
- *
- * Details explaining the Python-C API can be found under
- * 'Extending and Embedding' and 'Python/C API' at
- * docs.python.org .
- */
-
 static PyMethodDef LogicalGufuncMethods[] = {
         {NULL, NULL, 0, NULL}
 };
@@ -42,11 +26,12 @@ static void double_all_equal(char **args, npy_intp *dimensions,
     for (n = 0; n < N; n++) {
         a_i = a_n;
         b_i = b_n;
+        *((npy_bool *)c_n) = NPY_TRUE;
+        
         for (i = 0; i < I; i++){
 
             a = *(npy_double *)a_i;
             b = *(npy_double *)b_i;
-            *((npy_bool *)c_n) = NPY_TRUE;
 
             if (a == b){
                 a_i += a_I;
@@ -66,7 +51,7 @@ static void double_all_equal(char **args, npy_intp *dimensions,
 /*This a pointer to the above function*/
 PyUFuncGenericFunction funcs[1] = {&double_all_equal};
 
-/* These are the input and return dtypes of logit.*/
+/* These are the input and return dtypes of all_equal.*/
 static char types[3] = {NPY_DOUBLE, NPY_DOUBLE, NPY_BOOL};
 
 static void *data[1] = {NULL};
