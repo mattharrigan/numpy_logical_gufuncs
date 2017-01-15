@@ -33,7 +33,7 @@ def configuration(parent_package='', top_path=None):
     config = Configuration('logical_gufuncs_directory',
                            parent_package,
                            top_path)
-    config.add_extension('logical_gufuncs', ['logical_gufuncs.c'])
+    config.add_extension('logical_gufuncs', ['logical_gufuncs.c.src'])
 
     return config
 
