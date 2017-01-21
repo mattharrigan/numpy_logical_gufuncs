@@ -18,7 +18,7 @@ In [4]: def function_3(seq, sub):
    ...:         shape = seq.shape[:-1] + (len(seq) - len(sub) + 1, len(sub))
    ...:         strides = seq.strides + (seq. strides[-1],)
    ...:         two_d = np.lib.stride_tricks.as_strided(seq, shape=shape, strides=strides)
-   ...:         return np.where(lg.all_equal(two_d, sub))
+   ...:         return np.where(lg.all_eq(two_d, sub))
    ...: 
 
 In [5]: 
